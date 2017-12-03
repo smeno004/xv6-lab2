@@ -65,8 +65,9 @@ exec(char *path, char **argv)
   sz = PGROUNDUP(sz);
   //if((sz = allocuvm(pgdir, sz, sz + 2*PGSIZE)) == 0)
     //goto bad;
+
   //Lab 2 additions
-  if (allocuvm(pgdir, STACK_TOP - PGSIZE, STACK_TOP) == 0)  
+  if (allocuvm(pgdir, STACK_TOP - PGSIZE, STACK_TOP) == 0)
     goto bad;
   //clearpteu(pgdir, (char*)(sz - 2*PGSIZE));
   sp = STACK_TOP;

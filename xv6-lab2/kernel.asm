@@ -1689,8 +1689,9 @@ exec(char *path, char **argv)
 80100d6d:	89 45 e0             	mov    %eax,-0x20(%ebp)
   //if((sz = allocuvm(pgdir, sz, sz + 2*PGSIZE)) == 0)
     //goto bad;
+
   //Lab 2 additions
-  if (allocuvm(pgdir, STACK_TOP - PGSIZE, STACK_TOP) == 0)  
+  if (allocuvm(pgdir, STACK_TOP - PGSIZE, STACK_TOP) == 0)
 80100d70:	83 ec 04             	sub    $0x4,%esp
 80100d73:	68 ff ff ff 7f       	push   $0x7fffffff
 80100d78:	68 ff ef ff 7f       	push   $0x7fffefff
@@ -1947,11 +1948,11 @@ exec(char *path, char **argv)
       goto bad;
 80100f8b:	90                   	nop
 80100f8c:	eb 0a                	jmp    80100f98 <exec+0x402>
-  sz = PGROUNDUP(sz);
   //if((sz = allocuvm(pgdir, sz, sz + 2*PGSIZE)) == 0)
     //goto bad;
+
   //Lab 2 additions
-  if (allocuvm(pgdir, STACK_TOP - PGSIZE, STACK_TOP) == 0)  
+  if (allocuvm(pgdir, STACK_TOP - PGSIZE, STACK_TOP) == 0)
     goto bad;
 80100f8e:	90                   	nop
 80100f8f:	eb 07                	jmp    80100f98 <exec+0x402>
@@ -18097,9 +18098,9 @@ copyuvm(pde_t *pgdir, uint sz, uint sp)
     if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0)
       goto bad;
   }
-  //Lab 2 additions
-  //for(i = STACK_TOP; i > (STACK_TOP - (myproc()->stackSize * PGSIZE)); i -= PGSIZE){
-  for (i = PGROUNDDOWN(sp); i < STACK_TOP; i += PGSIZE){
+
+  //Lab 2 addition
+  for(i = PGROUNDDOWN(sp); i < STACK_TOP; i += PGSIZE){
 80108320:	8b 45 10             	mov    0x10(%ebp),%eax
 80108323:	25 00 f0 ff ff       	and    $0xfffff000,%eax
 80108328:	89 45 f4             	mov    %eax,-0xc(%ebp)
@@ -18172,9 +18173,9 @@ copyuvm(pde_t *pgdir, uint sz, uint sp)
     if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0)
       goto bad;
   }
-  //Lab 2 additions
-  //for(i = STACK_TOP; i > (STACK_TOP - (myproc()->stackSize * PGSIZE)); i -= PGSIZE){
-  for (i = PGROUNDDOWN(sp); i < STACK_TOP; i += PGSIZE){
+
+  //Lab 2 addition
+  for(i = PGROUNDDOWN(sp); i < STACK_TOP; i += PGSIZE){
 801083e0:	81 45 f4 00 10 00 00 	addl   $0x1000,-0xc(%ebp)
 801083e7:	81 7d f4 fe ff ff 7f 	cmpl   $0x7ffffffe,-0xc(%ebp)
 801083ee:	0f 86 3c ff ff ff    	jbe    80108330 <copyuvm+0x105>
