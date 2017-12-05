@@ -81,16 +81,18 @@ trap(struct trapframe *tf)
   case T_PGFLT: ;
     uint addr = rcr2();
     uint sp = myproc()->tf->esp;
+    //cprintf("%d , %d\n", PGROUNDDOWN(sp), addr);
+    //cprintf("Hello");
     if (addr > PGROUNDDOWN(sp) - PGSIZE && addr < PGROUNDDOWN(sp)) {
       pde_t *pgdir;
       pgdir = myproc()->pgdir;
-      cprintf("Allocating\n");
+      //cprintf("Allocating\n");
       if (allocuvm(pgdir, PGROUNDDOWN(sp) - PGSIZE, PGROUNDDOWN(sp)) == 0) {
         panic("Nope!\n");
       }
       myproc()->stackSize += 1;
-      myproc()->tf->esp = PGROUNDDOWN(sp);
-      cprintf("Stack Grown\n");
+      //myproc()->tf->esp = PGROUNDDOWN(sp);
+      //cprintf("Stack Grown\n");
     }
     break;
 
