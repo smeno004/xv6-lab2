@@ -1,3 +1,6 @@
+#include "types.h"
+#include "user.h"
+
 void testFunc()
 {
 	char a;
@@ -19,6 +22,6 @@ void testFunc()
 int main()
 {
 	testFunc();
-
+	exit();
 	return 0;
 }
