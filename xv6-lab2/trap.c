@@ -80,19 +80,19 @@ trap(struct trapframe *tf)
 
   case T_PGFLT: ;
     uint addr = rcr2();
-    uint sp = myproc()->tf->esp;
-    //cprintf("%d , %d\n", PGROUNDDOWN(sp), addr);
-    cprintf("Hello %x\n", sp);
-    if (addr > PGROUNDDOWN(sp) - PGSIZE && addr < PGROUNDDOWN(sp)) {
+    struct proc * curproc = myproc();
+    //uint sp = curproc->tf->esp;
+    uint stack_addr = STACK_TOP - (curproc->stackSize * PGSIZE);
+    //cprintf("Bot Address: %x, Faulty Addr: %x\n", stack_addr, PGROUNDDOWN(addr));
+    if (PGROUNDDOWN(addr) <= stack_addr) {
       pde_t *pgdir;
-      pgdir = myproc()->pgdir;
+      pgdir = curproc->pgdir;
       cprintf("Allocating\n");
-      if (allocuvm(pgdir, PGROUNDDOWN(sp) - PGSIZE, PGROUNDDOWN(sp)) == 0) {
-        panic("Nope!\n");
+      if (allocuvm(pgdir, PGROUNDDOWN(addr), stack_addr) == 0) {
+        panic("Messed Up\n");
       }
-      myproc()->stackSize += 1;
-      //myproc()->tf->esp = PGROUNDDOWN(sp);
-      //cprintf("Stack Grown\n");
+      curproc->stackSize += 1;
+      cprintf("Stack Size: %d\n", curproc->stackSize); 
     }
     break;
 

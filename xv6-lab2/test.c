@@ -1,27 +1,31 @@
 #include "types.h"
 #include "user.h"
-
-void testFunc()
+#include "memlayout.h"
+void testFunc(int n)
 {
-  char a = 0;
-  int b = 0;
-  uint c = 0;
-  int d = 0;
-
+  int a = n;
+  int b = 1;
+  float c = 2;
+  char d = '3';
+  int e = 3;
 
   a += 1;
-  b -= 1;
-  c += 1;
-  d -= 1;
+  b += 2;
+  c += 3;
+  e += 4;
+  d += 1;
 
-
-  testFunc();
+  //printf(1, "hellow world: %d\n", n);
+  if (a >= 100000) {
+    return;
+  }
+  testFunc(a);
 
 }
 
 int main()
 {
-  testFunc();
+  testFunc(1);
   exit();
   return 0;
 }
