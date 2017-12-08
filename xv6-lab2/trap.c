@@ -83,16 +83,16 @@ trap(struct trapframe *tf)
     struct proc * curproc = myproc();
     //uint sp = curproc->tf->esp;
     uint stack_addr = STACK_TOP - (curproc->stackSize * PGSIZE);
-    //cprintf("Bot Address: %x, Faulty Addr: %x\n", stack_addr, PGROUNDDOWN(addr));
+    //cprintf("Bot Address: %x, Faulty Addr: %x\n", stack_addr, addr);
     if (PGROUNDDOWN(addr) <= stack_addr) {
       pde_t *pgdir;
       pgdir = curproc->pgdir;
-      cprintf("Allocating\n");
+      //cprintf("Allocating\n");
       if (allocuvm(pgdir, PGROUNDDOWN(addr), stack_addr) == 0) {
         panic("Messed Up\n");
       }
       curproc->stackSize += 1;
-      cprintf("Stack Size: %d\n", curproc->stackSize); 
+      //cprintf("Stack Size: %d\n", curproc->stackSize); 
     }
     break;
 
